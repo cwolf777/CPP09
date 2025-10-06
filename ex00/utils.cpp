@@ -6,7 +6,7 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 10:21:05 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/06 16:04:30 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/06 18:57:36 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,20 +63,34 @@ static void validateValue(const std::string& valueStr)
         throw std::logic_error("Error: Value is empty");
     }
     
-    bool dotSeen = false;
-    for (size_t i = 0; i < value.size(); ++i)
-    {
-        if (value[i] == '.')
-        {
-            if (dotSeen)
-                throw std::logic_error("Error: Invalid number format -> " + value);
-            dotSeen = true;
-        } 
-        else if (!std::isdigit(value[i]))
-            throw std::logic_error("Error: Value contains invalid character -> " + value);
-    }
+    // bool dotSeen = false;
+    // for (size_t i = 0; i < value.size(); ++i)
+    // {
+    //     if (value[i] == '.')
+    //     {
+    //         if (dotSeen)
+    //             throw std::logic_error("Error: Invalid number format -> " + value);
+    //         dotSeen = true;
+    //     } 
+    //     else if (!std::isdigit(value[i]))
+    //         throw std::logic_error("Error: Value contains invalid character -> " + value);
+    // }
     
-    float number = std::stof(value);
+    size_t pos;
+    float number;
+    try
+    {
+        number = std::stof(value, &pos);
+    }
+    catch(const std::exception& e)
+    {
+        throw std::logic_error("Error: Invalid number -> " + value);
+    }
+
+    if (pos != value.length())
+    {
+        throw std::logic_error("Error: Value contains invalid character -> " + value);
+    }
 
     if (number < 0.0 || number > 1000.0)
     {
@@ -169,7 +183,8 @@ void validate(const std::string& filename)
             }
             else
             {
-                throw std::logic_error("Error: Invalid line format!");
+                // throw std::logic_error("Error: Invalid line format!");
+                std::cerr << "Error: Invalid line format!" << std::endl;
             }
         }
     }
