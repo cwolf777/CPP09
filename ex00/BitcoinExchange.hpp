@@ -6,7 +6,7 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 10:23:03 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/06 13:46:43 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/06 14:45:21 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include <regex>
+
+void validate(const std::string& filename);
 
 class BitcoinExchange
 {

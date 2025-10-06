@@ -6,7 +6,7 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 13:36:01 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/06 13:43:03 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/06 14:10:23 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ std::map<std::string, double> BitcoinExchange::load_map(void)
 
     std::ifstream file("data.csv");
     if (!file.is_open()) {
-        std::cerr << "Error: Fail cannot be opened!" << std::endl;
+        std::cerr << "Error: Data file cannot be opened!" << std::endl;
         exit(EXIT_FAILURE);
     }
     std::string line;
