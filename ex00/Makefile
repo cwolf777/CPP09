@@ -6,7 +6,7 @@
 #    By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/06 09:57:13 by cwolf             #+#    #+#              #
-#    Updated: 2025/10/06 11:36:55 by cwolf            ###   ########.fr        #
+#    Updated: 2025/10/06 13:48:59 by cwolf            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++17
 
 NAME = btc
 
-SRCS = main.cpp utils.cpp
+SRCS = main.cpp utils.cpp BitcoinExchange.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 all: $(NAME)

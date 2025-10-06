@@ -6,7 +6,7 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 10:23:03 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/06 11:47:05 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/06 13:46:43 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,4 +19,14 @@
 #include <sstream>
 #include <iomanip>
 
-std::map<std::string, double> load_map();
+class BitcoinExchange
+{
+    public:
+    BitcoinExchange();
+    BitcoinExchange(const BitcoinExchange& other);
+    BitcoinExchange& operator=(const BitcoinExchange& other);
+    ~BitcoinExchange();
+    
+    std::map<std::string, double> _exchangeRate;
+    std::map<std::string, double> load_map(void);
+};
