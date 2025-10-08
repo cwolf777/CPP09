@@ -6,7 +6,7 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 10:18:03 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/07 11:07:04 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/08 15:41:54 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ class RPN
         
         float execute(const std::string& calculation);
         bool isNumber(const std::string& token);
+        bool isOperator(const std::string& token);
         void applyOperator(const std::string& op);
 };
