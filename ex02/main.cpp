@@ -60,6 +60,26 @@ int main (int argc, char *argv[])
     std::vector<int> input;
     for (int i = 1; i < argc; ++i)
         input.push_back(std::stoi(argv[i]));
+
+    PmergeMe<std::vector<int>> vecSorter(input);
+    PmergeMe<std::deque<int>>  deqSorter(input);
     
+    std::cout << "Before: ";
+    for (size_t i = 0; i < input.size(); ++i)
+        std::cout << input[i] << " ";
+    std::cout << std::endl;
+
+    vecSorter.sort();
+    deqSorter.sort();
+
+    std::cout << "After:  ";
+    vecSorter.print();
+
+    std::cout << "Time to process " << input.size()
+              << " elements with std::vector: " << vecSorter.getTime() << " µs\n";
+    std::cout << "Time to process " << input.size()
+              << " elements with std::deque:  " << deqSorter.getTime() << " µs\n";
+
+    return 0;
     
 }

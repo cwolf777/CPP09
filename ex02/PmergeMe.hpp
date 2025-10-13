@@ -25,7 +25,7 @@ class PmergeMe
         Container data;
         double timeTaken;
 
-        Container fordJohnson(Container vec);
+        Container fordJohnson(Container vec)
         {
             if (vec.size() <= 1)
             {
@@ -70,7 +70,7 @@ class PmergeMe
     
     public:
         PmergeMe() : timeTaken(0), data(NULL) {}; //??? = default
-        PmergeMe(const std::vector<int>& input)
+        PmergeMe(Container& input)
         {
             timeTaken = -1;
             data.insert(data.end(), input.begin(), input.end());
@@ -87,7 +87,7 @@ class PmergeMe
         }
         ~PmergeMe(){};
 
-        void sort();
+        void sort()
         {
             auto start = std::chrono::high_resolution_clock::now();
             data = fordJohnson(data);
