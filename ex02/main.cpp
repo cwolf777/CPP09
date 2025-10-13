@@ -6,11 +6,13 @@
 /*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 09:54:57 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/13 13:45:00 by chris            ###   ########.fr       */
+/*   Updated: 2025/10/13 15:52:33 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int main (void)
+#include "PmergeMe.hpp"
+
+int main (int argc, char *argv[])
 {
     //Ford-Johnson-Algo
     //2 Parts: Merging & Inserting
@@ -50,6 +52,14 @@ int main (void)
 
     //Finally Order 1 -> Each element is its own pair, list is sorted no further operations are required 
 
-
+    if (argc != 2)
+    {
+        std::cerr << "Usage: ./PmergeMe [Numbers]" << std::endl;
+        return (1);
+    }
+    std::vector<int> input;
+    for (int i = 1; i < argc; ++i)
+        input.push_back(std::stoi(argv[i]));
+    
     
 }
