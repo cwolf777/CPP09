@@ -62,7 +62,9 @@ int main (int argc, char *argv[])
         input.push_back(std::stoi(argv[i]));
 
     PmergeMe<std::vector<int>> vecSorter(input);
-    PmergeMe<std::deque<int>>  deqSorter(input);
+
+    std::deque<int> inputDeque(input.begin(), input.end());
+    PmergeMe<std::deque<int>> deqSorter(inputDeque);
     
     std::cout << "Before: ";
     for (size_t i = 0; i < input.size(); ++i)
