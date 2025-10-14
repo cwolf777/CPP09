@@ -52,9 +52,9 @@ int main (int argc, char *argv[])
 
     //Finally Order 1 -> Each element is its own pair, list is sorted no further operations are required 
 
-    if (argc != 2)
+    if (argc < 2)
     {
-        std::cerr << "Usage: ./PmergeMe [Numbers]" << std::endl;
+        std::cerr << "Usage: ./PmergeMe Numbers..." << std::endl;
         return (1);
     }
     std::vector<int> input;
@@ -63,7 +63,7 @@ int main (int argc, char *argv[])
 
     PmergeMe<std::vector<int>> vecSorter(input);
 
-    std::deque<int> inputDeque(input.begin(), input.end());
+    std::deque<int> inputDeque(input.begin(), input.end()); //kann ich konstruktor ändern um mit vektor deque zu ertslllen
     PmergeMe<std::deque<int>> deqSorter(inputDeque);
     
     std::cout << "Before: ";
