@@ -6,7 +6,7 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 12:48:44 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/17 14:52:49 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/17 16:03:33 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,3 +83,82 @@ void printPairs(const std::vector<std::pair<int,int>> &pairs) {
 
 
 
+
+static void splitMainPend(const std::vector<int> &numbers, size_t unitSize, std::vector<int> &main, std::vector<int> &pend)
+{
+    main.clear();
+    pend.clear();
+    
+    size_t  totalUnits = numbers.size() / (2 * unitSize);
+    if (totalUnits == 0)
+        return;
+        
+    for (size_t u = 0; u < totalUnits; ++u)
+    {
+        size_t bStart = u * 2 * unitSize;       // Beginn b
+        size_t aStart = bStart + unitSize;      // Beginn a
+
+        // 1. b1/b2/... in main oder pend
+        if (u == 0) // erste Einheit: b1 in main
+            main.insert(main.end(), numbers.begin() + bStart, numbers.begin() + bStart + unitSize);
+        else        // restliche b's in pend
+            pend.insert(pend.end(), numbers.begin() + bStart, numbers.begin() + bStart + unitSize);
+
+        // 2. a1/a2/... immer in main
+        main.insert(main.end(), numbers.begin() + aStart, numbers.begin() + aStart + unitSize);
+    }
+
+}
+
+std::vector<int> FordJohnson(std::vector<std::pair<int,int>> pairs, size_t unitSize)
+{
+    std::cout << "First Unit Size: " << unitSize << std::endl;
+    std::vector<int> numbers = flattenPairs(pairs);
+    printVector(numbers);
+    
+    std::vector<int> main, pend;
+    while (unitSize > 1)
+    {
+        std::cout << "Processing unitSize = " << unitSize << std::endl;
+        splitMainPend(numbers, unitSize, main, pend);
+        // std::cout << "Main: " << std::endl;
+        // printVector(main);
+        // std::cout << "Pend: " << std::endl;
+        // printVector(pend);
+        
+        //if something in pend
+            //insert process: 
+            //define jacobsthal number
+            //this defines which unit in pend gets inserted first into main (per binary insertion)
+            //which b in pend continues? ... until pend empty 
+            //vector main -> vector numbers;
+            
+        
+        
+
+
+
+        unitSize /= 2;
+    }
+    return main;
+}
+
+
+std::vector<int> flattenPairs(const std::vector<std::pair<int,int>> &pairs)
+{
+    std::vector<int> result;
+    for (size_t i = 0; i < pairs.size(); ++i)
+    {
+        result.push_back(pairs[i].first);
+        result.push_back(pairs[i].second);
+    }
+    return result;
+}
+
+
+void printVector(const std::vector<int> &v)
+{
+    for (size_t i = 0; i < v.size(); ++i)
+        std::cout << v[i] << " ";
+    std::cout << std::endl;
+}

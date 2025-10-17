@@ -6,7 +6,7 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 09:54:57 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/17 14:53:03 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/17 15:32:52 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,21 @@ int main(int argc, char *argv[])
     int leftover;
     std::vector<std::pair<int,int>> pairs = makeAndSortPairs(numbers, leftover);
     
-    std::cout << "Vor der Sortierung:" << std::endl;
-    printPairs(pairs);
+    // std::cout << "Vor der Sortierung:" << std::endl;
+    // printPairs(pairs);
     
     size_t unitSize = 1;
     firstUnitSort(pairs, unitSize);
     // std::cout << "unit Size = " << unitSize << std::endl;
 
-    std::cout << "Nach der Sortierung:" << std::endl;
-    printPairs(pairs);
+    // std::cout << "Nach der Sortierung:" << std::endl;
+    // printPairs(pairs);
 
-    if (leftover != -1)
-        std::cout << "Übrig: " << leftover << std::endl;
+    // if (leftover != -1)
+    //     std::cout << "Übrig: " << leftover << std::endl;
         
+    
+    std::vector<int> main = FordJohnson(pairs, unitSize);
 
     //pass in unit level of function before 
     //richtig labeln {b1,a1,b2,a2,b3,a3,...} {main:  b1,a1, [all coming a's], pend: [all b's after b1]}
