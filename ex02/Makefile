@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: chris <chris@student.42.fr>                +#+  +:+       +#+         #
+#    By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/07 09:49:05 by cwolf             #+#    #+#              #
-#    Updated: 2025/10/13 15:50:46 by chris            ###   ########.fr        #
+#    Updated: 2025/10/16 13:06:44 by cwolf            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++17
 
 NAME = RPN
 
-SRCS = main.cpp PmergeMe.cpp
+SRCS = main.cpp PmergeMe.cpp utils.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 all: $(NAME)

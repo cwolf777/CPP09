@@ -3,17 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 09:54:57 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/13 15:52:33 by chris            ###   ########.fr       */
+/*   Updated: 2025/10/17 14:53:03 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 
-int main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
+    if (argc < 2) {
+        std::cerr << "Usage: ./PmergeMe Numbers..." << std::endl;
+        return 1;
+    }
+
+    std::vector<int> numbers;
+    for (int i = 1; i < argc; ++i)
+        numbers.push_back(std::atoi(argv[i]));
+
+    int leftover;
+    std::vector<std::pair<int,int>> pairs = makeAndSortPairs(numbers, leftover);
+    
+    std::cout << "Vor der Sortierung:" << std::endl;
+    printPairs(pairs);
+    
+    size_t unitSize = 1;
+    firstUnitSort(pairs, unitSize);
+    // std::cout << "unit Size = " << unitSize << std::endl;
+
+    std::cout << "Nach der Sortierung:" << std::endl;
+    printPairs(pairs);
+
+    if (leftover != -1)
+        std::cout << "Übrig: " << leftover << std::endl;
+        
+
+    //pass in unit level of function before 
+    //richtig labeln {b1,a1,b2,a2,b3,a3,...} {main:  b1,a1, [all coming a's], pend: [all b's after b1]}
+    //if nothing inside pend -> unit level lower (/2)
+    //if something in pend -> insert process (pend into main)
+        //insert process: jacobsthal number defines which b[?] starts (beginning always 3?)
+        //binary insertion to find correct place for pend unit b[?]
+        //continue with b[? -1] until last b[] in pend
+    //unit level lower (/2) until all numbers get compared individually 
+
+    return 0;
+}
+
+
+
+
+
     //Ford-Johnson-Algo
     //2 Parts: Merging & Inserting
     //Numbers: 25 24 23 22 21 20 19 18
@@ -51,37 +93,3 @@ int main (int argc, char *argv[])
     //[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
 
     //Finally Order 1 -> Each element is its own pair, list is sorted no further operations are required 
-
-    if (argc < 2)
-    {
-        std::cerr << "Usage: ./PmergeMe Numbers..." << std::endl;
-        return (1);
-    }
-    std::vector<int> input;
-    for (int i = 1; i < argc; ++i)
-        input.push_back(std::stoi(argv[i]));
-
-    PmergeMe<std::vector<int>> vecSorter(input);
-
-    std::deque<int> inputDeque(input.begin(), input.end()); //kann ich konstruktor ändern um mit vektor deque zu ertslllen
-    PmergeMe<std::deque<int>> deqSorter(inputDeque);
-    
-    std::cout << "Before: ";
-    for (size_t i = 0; i < input.size(); ++i)
-        std::cout << input[i] << " ";
-    std::cout << std::endl;
-
-    vecSorter.sort();
-    deqSorter.sort();
-
-    std::cout << "After:  ";
-    vecSorter.print();
-
-    std::cout << "Time to process " << input.size()
-              << " elements with std::vector: " << vecSorter.getTime() << " µs\n";
-    std::cout << "Time to process " << input.size()
-              << " elements with std::deque:  " << deqSorter.getTime() << " µs\n";
-
-    return 0;
-    
-}
