@@ -91,8 +91,9 @@ static void splitMainPend(const std::vector<int> &numbers, size_t unitSize, std:
     if (unitSize == 0 || numbers.empty())
         return;
 
-    size_t totalUnits = numbers.size() / (2 * unitSize);
-    size_t usedElements = totalUnits * 2 * unitSize;
+    size_t totalUnits = numbers.size() / unitSize;
+
+    size_t usedElements = totalUnits * unitSize;
 
     if (totalUnits == 0)
     {
@@ -100,24 +101,32 @@ static void splitMainPend(const std::vector<int> &numbers, size_t unitSize, std:
         return;
     }
 
-    // std::cout << "Vollstaendige Einheiten: " << totalUnits << std::endl;
-    // std::cout << "Benutzte Zahlen (ausser leftover): " << usedElements << std::endl;
+    std::cout << "Vollstaendige Einheiten: " << totalUnits << std::endl;
+    std::cout << "Benutzte Zahlen (ausser leftover): " << usedElements << std::endl;
 
-    for (size_t u = 0; u < totalUnits; ++u)
+    for (size_t u = 0; u < totalUnits/2; ++u)
     {
-        size_t bStart = u * 2 * unitSize;   
-        size_t aStart = bStart + unitSize;  
+        size_t bStart = u * unitSize * 2; //0, 8, 16, 24 
+        size_t aStart = bStart + unitSize; //4, 12, 20, 28
 
 
         if (u == 0)
+        {
             main.insert(main.end(), numbers.begin() + bStart, numbers.begin() + bStart + unitSize);
+            main.insert(main.end(), numbers.begin() + aStart, numbers.begin() + aStart + unitSize);
+        }
         else
+        {
             pend.insert(pend.end(), numbers.begin() + bStart, numbers.begin() + bStart + unitSize);
-
-
-        main.insert(main.end(), numbers.begin() + aStart, numbers.begin() + aStart + unitSize);
+            main.insert(main.end(), numbers.begin() + aStart, numbers.begin() + aStart + unitSize); //warum wird bei u = 1 nicht in main inserted
+        }
     }
-
+    // if ungerade totalUnits die letze sache in pend 
+    if (totalUnits % 2 != 0)
+    {
+        size_t lastStart = (totalUnits - 1) * unitSize;
+        pend.insert(pend.end(), numbers.begin() + lastStart, numbers.begin() + lastStart + unitSize);
+    }
     if (usedElements < numbers.size())
     {
         leftover.insert(leftover.end(), numbers.begin() + usedElements, numbers.end());
