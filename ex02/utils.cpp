@@ -6,7 +6,7 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 12:48:44 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/20 11:24:49 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/20 16:10:09 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ static void splitMainPend(const std::vector<int> &numbers, size_t unitSize, std:
         return;
     }
 
-    std::cout << "Vollstaendige Einheiten: " << totalUnits << std::endl;
-    std::cout << "Benutzte Zahlen (ausser leftover): " << usedElements << std::endl;
+    // std::cout << "Vollstaendige Einheiten: " << totalUnits << std::endl;
+    // std::cout << "Benutzte Zahlen (ausser leftover): " << usedElements << std::endl;
 
     for (size_t u = 0; u < totalUnits/2; ++u)
     {
@@ -133,43 +133,62 @@ static void splitMainPend(const std::vector<int> &numbers, size_t unitSize, std:
     }
 }
 
+static std::vector<size_t> generateJacobsthalUpTo(size_t limit)
+{
+    std::vector<size_t> j = {0, 1};
+    while (j.back() < limit) {
+        size_t next = j[j.size()-1] + 2 * j[j.size()-2];
+        j.push_back(next);
+    }
+    return j;
+}
 
 static std::vector<size_t> generateJacobInsertionOrder(size_t pendCount)
 {
-    //start j(3) = 3 = b3
-    //backwards to b2
-    // j(4) = 5 -> backwards to b5 b4
-    //j(5) = 11 -> b11 b10 b9 b8 b7 b6
-    // ----> 3 2 5 4 11 10 9 8 7 6
-
-    std::cout << "Unit Count in JTFunk: " << pendCount << std::endl;
     std::vector<size_t> order;
     if (pendCount == 0)
         return order;
 
-    // Jacobsthal-Folge erzeugen bis >= pendCount + 1 (weil b1 fehlt)
-    std::vector<size_t> jac = {0, 1};
-    while (jac.back() < pendCount + 1)
-        jac.push_back(jac.back() + 2 * jac[jac.size() - 2]);
+    // maximaler b-Index, der in pend existiert (b2..bMax)
+    size_t bMax = pendCount + 1; // b2..b(bMax)
 
-    // Starte ab J(3), da J(0..2) nicht genutzt werden
+    // Erzeuge Jacobsthal-Zahlen bis >= bMax
+    std::vector<size_t> jac = generateJacobsthalUpTo(bMax);
+
+    // Wir interessieren uns ab J(3).
+    // Für jedes J(i) fügen wir rückwärts j = min(J(i), bMax) .. (J(i-1)+1) ein.
     for (size_t i = 3; i < jac.size(); ++i)
     {
-        size_t current = std::min(jac[i], pendCount + 1); // +1, weil b2 == index 2
-        size_t previous = jac[i - 1];
+        size_t current = jac[i];
+        size_t previous = jac[i-1];
 
-        // Rückwärts von current-1 bis previous
-        for (size_t j = current - 1; j > previous - 1 && j >= 2; --j)
-            order.push_back(j);
+        // begrenze current auf bMax
+        if (current > bMax) current = bMax;
 
-        if (current - 1 >= pendCount + 1)
-            break;
+        // berechne begin/end als signed, um sicheren Abwärtszählzyklus zu haben
+        long long begin = static_cast<long long>(current);
+        long long end   = static_cast<long long>(previous) + 1; // inklusiv
+
+        // Falls begin < end, nichts zu tun für diesen Schritt
+        if (begin < end) {
+            // nichts
+        } else {
+            for (long long j = begin; j >= end; --j) {
+                if (j >= 2 && static_cast<size_t>(j) <= bMax) {
+                    order.push_back(static_cast<size_t>(j));
+                }
+            }
+        }
+
+        if (current == bMax)
+            break; // wir haben die maximale verfügbare b-Index erreicht
     }
 
-    // Falls noch nicht alle enthalten sind → Rest in Reihenfolge ergänzen
-    for (size_t i = 2; i <= pendCount + 1; ++i)
-        if (std::find(order.begin(), order.end(), i) == order.end())
-            order.push_back(i);
+    // Ergänze fehlende Indizes (2..bMax) falls nötig — in aufsteigender Reihenfolge
+    for (size_t x = 2; x <= bMax; ++x) {
+        if (std::find(order.begin(), order.end(), x) == order.end())
+            order.push_back(x);
+    }
 
     return order;
 }
@@ -184,48 +203,111 @@ static void rebuildNumbersFromMainAndLeftover(const std::vector<int> &main, cons
     numbers.insert(numbers.end(), leftover.begin(), leftover.end());
 }
 
+// static size_t findInsertPos(const std::vector<int> &main, int key)
+// {
+//     size_t left = 0;
+//     size_t right = main.size();
+
+//     while (left < right)
+//     {
+//         size_t mid = left + (right - left) / 2;
+//         if (main[mid] < key)
+//             left = mid + 1;
+//         else
+//             right = mid;
+//     }
+//     return left; // Position, an der eingefügt werden soll
+// }
+
+static void insertPendUnits(std::vector<int> &main, std::vector<int> &pend, const std::vector<size_t> &insertionOrder, size_t unitSize)
+{
+    if (pend.empty() || unitSize == 0)
+        return;
+
+    size_t pendUnits = pend.size() / unitSize;
+
+    for (size_t idx : insertionOrder)
+    {
+        if (idx < 2) // b1 nie in pend
+            continue;
+
+        size_t unitIdxInPend = idx - 2; // b2 → 0, b3 → 1, usw.
+        if (unitIdxInPend >= pendUnits)
+            break;
+
+        size_t start = unitIdxInPend * unitSize;
+        size_t end = start + unitSize;
+
+        if (end > pend.size())
+            break;
+
+        // Komplette Einheit extrahieren
+        std::vector<int> unit(pend.begin() + start, pend.begin() + end);
+        int key = unit.back(); // Letztes Element = Sortierschlüssel
+
+        // 🔸 Binäre Suche auf Einheitenebene in main:
+        // Suche Position, an der der neue Key größer als der letzte Wert der vorherigen Einheit ist
+        size_t left = 0;
+        size_t right = main.size() / unitSize; // Anzahl der Einheiten in main
+        while (left < right)
+        {
+            size_t mid = (left + right) / 2;
+            int midKey = main[(mid + 1) * unitSize - 1]; // letzter Wert der mittleren Einheit
+
+            if (midKey < key)
+                left = mid + 1;
+            else
+                right = mid;
+        }
+
+        // 🔸 Jetzt liegt left an der Einheit, VOR der eingefügt werden muss.
+        size_t insertPos = left * unitSize;
+
+        // Einheit an der richtigen Stelle (blockweise) einfügen
+        main.insert(main.begin() + insertPos, unit.begin(), unit.end());
+
+        // std::cout << "Main nach Insert b" << idx << ": ";
+        // printVector(main);
+    }
+
+    // Pend am Ende vollständig leeren
+    pend.clear();
+}
+
 std::vector<int> FordJohnson(std::vector<std::pair<int,int>> pairs, size_t unitSize)
 {
-    std::cout << "First Unit Size: " << unitSize << std::endl;
+    // std::cout << "First Unit Size: " << unitSize << std::endl;
     std::vector<int> numbers = flattenPairs(pairs);
-    printVector(numbers);
+    // printVector(numbers);
     
     std::vector<int> main, pend, leftover;
-    while (unitSize > 1)
+    while (unitSize >= 1)
     {
-        std::cout << "Processing unitSize = " << unitSize << std::endl;
+        // std::cout << "Processing unitSize = " << unitSize << std::endl;
         splitMainPend(numbers, unitSize, main, pend, leftover); 
-        std::cout << "Main: " << std::endl;
-        printVector(main);
-        std::cout << "Pend: " << std::endl;
-        printVector(pend);
-        std::cout << "Leftover: " << std::endl;
-        printVector(leftover);
-        //if something in pend
-            //insert process: 
-            //define jacobsthal number
-            //this defines which unit in pend gets inserted first into main (per binary insertion)
-            //which b in pend continues? ... until pend empty 
-            //vector main -> vector numbers;
+        // std::cout << "Main: " << std::endl;
+        // printVector(main);
+        // std::cout << "Pend: " << std::endl;
+        // printVector(pend);
+        // std::cout << "Leftover: " << std::endl;
+        // printVector(leftover);
         
         if (!pend.empty())
         {
             std::vector<size_t> insertionOrder = generateJacobInsertionOrder(pend.size() / unitSize);
-            std::cout << "Jacobsthal Insertion Order: ";
-            for (auto i : insertionOrder) std::cout << i << " ";
-            std::cout << std::endl;
+            // std::cout << "Jacobsthal Insertion Order: ";
+            // for (auto i : insertionOrder) std::cout << i << " ";
+            // std::cout << std::endl;
             
-            // for (size_t idx : insertionOrder)
-            // {
-            //     // int val = pend[idx - 1];
-            //     //binaryinsert (main, val)
-            //     //test print 
-            // }
+            insertPendUnits(main, pend, insertionOrder, unitSize);
         }
-        
+        // std::cout << "Main after Insertion: " << std::endl;
+        // printVector(main);
+        // std::cout << "Leftover after Insertion: " << std::endl;
+        // printVector(leftover);
         rebuildNumbersFromMainAndLeftover(main, leftover, numbers);
-        std::cout << "Ende der Sequence (numbers): " << std::endl;
-        printVector(numbers);
+        // std::cout << "Ende der Sequence (numbers): " << std::endl;
+        // printVector(numbers);
         unitSize /= 2;
     }
     return main;

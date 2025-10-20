@@ -6,12 +6,13 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 09:54:57 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/17 15:32:52 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/20 16:12:17 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 
+//toDo:5 10 18 7somewords 
 int main(int argc, char *argv[])
 {
     if (argc < 2) {
@@ -41,6 +42,8 @@ int main(int argc, char *argv[])
         
     
     std::vector<int> main = FordJohnson(pairs, unitSize);
+    std::cout << "Sorted List: " << std::endl;
+    printVector(main);
 
     //pass in unit level of function before 
     //richtig labeln {b1,a1,b2,a2,b3,a3,...} {main:  b1,a1, [all coming a's], pend: [all b's after b1]}
