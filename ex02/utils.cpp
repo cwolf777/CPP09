@@ -6,7 +6,7 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 12:48:44 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/18 12:21:29 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/20 11:24:49 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,47 +134,46 @@ static void splitMainPend(const std::vector<int> &numbers, size_t unitSize, std:
 }
 
 
-static std::vector<size_t> generateJacobsthalUpTo(size_t n)
+static std::vector<size_t> generateJacobInsertionOrder(size_t pendCount)
 {
-    std::vector<size_t> jac = {0, 1};
-    while (jac.back() < n)
-    {
-        jac.push_back(jac[jac.size() - 1] + 2 * jac[jac.size() - 2]);
-    }
-    return jac;
-}
+    //start j(3) = 3 = b3
+    //backwards to b2
+    // j(4) = 5 -> backwards to b5 b4
+    //j(5) = 11 -> b11 b10 b9 b8 b7 b6
+    // ----> 3 2 5 4 11 10 9 8 7 6
 
-std::vector<size_t> getJacobInsertionOrder(size_t pendSize)
-{
-    std::vector<size_t> jac = generateJacobsthalUpTo(pendSize + 1);
+    std::cout << "Unit Count in JTFunk: " << pendCount << std::endl;
     std::vector<size_t> order;
+    if (pendCount == 0)
+        return order;
 
+    // Jacobsthal-Folge erzeugen bis >= pendCount + 1 (weil b1 fehlt)
+    std::vector<size_t> jac = {0, 1};
+    while (jac.back() < pendCount + 1)
+        jac.push_back(jac.back() + 2 * jac[jac.size() - 2]);
+
+    // Starte ab J(3), da J(0..2) nicht genutzt werden
     for (size_t i = 3; i < jac.size(); ++i)
     {
-        size_t current = jac[i];
+        size_t current = std::min(jac[i], pendCount + 1); // +1, weil b2 == index 2
         size_t previous = jac[i - 1];
 
-        if (current > pendSize)
-            current = pendSize;
-
-        // rückwärts vom current bis previous+1
-        for (size_t j = current; j > previous; --j)
+        // Rückwärts von current-1 bis previous
+        for (size_t j = current - 1; j > previous - 1 && j >= 2; --j)
             order.push_back(j);
 
-        if (current == pendSize)
+        if (current - 1 >= pendCount + 1)
             break;
     }
 
-    // Wenn Jacobsthal-Zahlen nicht alles abdecken (z.B. kleine pend-Größe)
-    // dann füge restliche Elemente normal hinzu
-    for (size_t i = 1; i <= pendSize; ++i)
-    {
+    // Falls noch nicht alle enthalten sind → Rest in Reihenfolge ergänzen
+    for (size_t i = 2; i <= pendCount + 1; ++i)
         if (std::find(order.begin(), order.end(), i) == order.end())
             order.push_back(i);
-    }
 
     return order;
 }
+
 
 static void rebuildNumbersFromMainAndLeftover(const std::vector<int> &main, const std::vector<int> &leftover, std::vector<int> &numbers)
 {
@@ -211,7 +210,7 @@ std::vector<int> FordJohnson(std::vector<std::pair<int,int>> pairs, size_t unitS
         
         if (!pend.empty())
         {
-            std::vector<size_t> insertionOrder = getJacobInsertionOrder(pend.size());
+            std::vector<size_t> insertionOrder = generateJacobInsertionOrder(pend.size() / unitSize);
             std::cout << "Jacobsthal Insertion Order: ";
             for (auto i : insertionOrder) std::cout << i << " ";
             std::cout << std::endl;
