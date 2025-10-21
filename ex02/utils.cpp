@@ -6,7 +6,7 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 12:48:44 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/20 16:10:09 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/21 16:15:35 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ std::vector<std::pair<int,int>> makeAndSortPairs(const std::vector<int> &numbers
         pairs.push_back(std::make_pair(a,b));
         i += 2;
     }
-    if (i < n) leftover = numbers[i];
+    // if (i < n) leftover = numbers[i];
+    
+    if (numbers.size() % 2 != 0)
+        leftover = numbers.back();
 
     return pairs; //return container of pairs
 }
@@ -274,23 +277,31 @@ static void insertPendUnits(std::vector<int> &main, std::vector<int> &pend, cons
     pend.clear();
 }
 
-std::vector<int> FordJohnson(std::vector<std::pair<int,int>> pairs, size_t unitSize)
+std::vector<int> FordJohnson(std::vector<std::pair<int,int>> pairs, size_t unitSize, int oddNum)
 {
+    
     // std::cout << "First Unit Size: " << unitSize << std::endl;
     std::vector<int> numbers = flattenPairs(pairs);
-    // printVector(numbers);
+    printVector(numbers);
+    
+    if (oddNum != -1)
+    {
+        numbers.push_back(oddNum);
+    }
+    
+    printVector(numbers);
     
     std::vector<int> main, pend, leftover;
     while (unitSize >= 1)
     {
-        // std::cout << "Processing unitSize = " << unitSize << std::endl;
+        std::cout << "Processing unitSize = " << unitSize << std::endl;
         splitMainPend(numbers, unitSize, main, pend, leftover); 
-        // std::cout << "Main: " << std::endl;
-        // printVector(main);
-        // std::cout << "Pend: " << std::endl;
-        // printVector(pend);
-        // std::cout << "Leftover: " << std::endl;
-        // printVector(leftover);
+        std::cout << "Main: " << std::endl;
+        printVector(main);
+        std::cout << "Pend: " << std::endl;
+        printVector(pend);
+        std::cout << "Leftover: " << std::endl;
+        printVector(leftover);
         
         if (!pend.empty())
         {

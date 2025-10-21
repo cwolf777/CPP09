@@ -6,7 +6,7 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 09:54:57 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/20 16:12:17 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/21 16:13:33 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ int main(int argc, char *argv[])
     // std::cout << "Nach der Sortierung:" << std::endl;
     // printPairs(pairs);
 
-    // if (leftover != -1)
-    //     std::cout << "Übrig: " << leftover << std::endl;
+    if (leftover != -1)
+        std::cout << "Übrig: " << leftover << std::endl;
         
     
-    std::vector<int> main = FordJohnson(pairs, unitSize);
+    std::vector<int> main = FordJohnson(pairs, unitSize, leftover);
     std::cout << "Sorted List: " << std::endl;
     printVector(main);
 
