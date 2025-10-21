@@ -6,7 +6,7 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 12:48:44 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/21 16:15:35 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/21 18:21:01 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,35 +54,35 @@ void firstUnitSort(std::vector<std::pair<int,int>> &units, size_t &unitSize)
     unitSize /= 2;
 }
 
-std::vector<std::pair<int,int>> makeAndSortPairs(const std::vector<int> &numbers, int &leftover) //Paare gebildet und intern gesortet
-{
-    leftover = -1; //default
-    std::vector<std::pair<int,int>> pairs;
-    size_t n = numbers.size(); //n = number of numbers
+// std::vector<std::pair<int,int>> makeAndSortPairs(const std::vector<int> &numbers, int &leftover) //Paare gebildet und intern gesortet
+// {
+//     leftover = -1; //default
+//     std::vector<std::pair<int,int>> pairs;
+//     size_t n = numbers.size(); //n = number of numbers
 
-    size_t i = 0;
-    while (i + 1 < n)
-    {
-        int a = numbers[i];
-        int b = numbers[i+1];
-        if (a > b)
-            std::swap(a,b);
-        pairs.push_back(std::make_pair(a,b));
-        i += 2;
-    }
-    // if (i < n) leftover = numbers[i];
+//     size_t i = 0;
+//     while (i + 1 < n)
+//     {
+//         int a = numbers[i];
+//         int b = numbers[i+1];
+//         if (a > b)
+//             std::swap(a,b);
+//         pairs.push_back(std::make_pair(a,b));
+//         i += 2;
+//     }
+//     // if (i < n) leftover = numbers[i];
     
-    if (numbers.size() % 2 != 0)
-        leftover = numbers.back();
+//     if (numbers.size() % 2 != 0)
+//         leftover = numbers.back();
 
-    return pairs; //return container of pairs
-}
+//     return pairs; //return container of pairs
+// }
 
-void printPairs(const std::vector<std::pair<int,int>> &pairs) {
-    for (size_t i = 0; i < pairs.size(); ++i)
-        std::cout << "(" << pairs[i].first << "," << pairs[i].second << ") ";
-    std::cout << std::endl;
-}
+// void printPairs(const std::vector<std::pair<int,int>> &pairs) {
+//     for (size_t i = 0; i < pairs.size(); ++i)
+//         std::cout << "(" << pairs[i].first << "," << pairs[i].second << ") ";
+//     std::cout << std::endl;
+// }
 
 
 static void splitMainPend(const std::vector<int> &numbers, size_t unitSize, std::vector<int> &main, std::vector<int> &pend, std::vector<int> &leftover)

@@ -6,56 +6,76 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 09:54:57 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/21 16:13:33 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/21 18:01:30 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 
-//toDo:5 10 18 7somewords 
-int main(int argc, char *argv[])
+
+
+int main (int argc, char* argv[])
 {
-    if (argc < 2) {
+    if (argc < 2)
+    {
         std::cerr << "Usage: ./PmergeMe Numbers..." << std::endl;
         return 1;
     }
+    //try & catch
+    PmergeMe sorter;
+    sorter.loadInput(argv, argc);
+    sorter.sortVector();
+    // sorter.sortDeque();
+    // sorter.printResults();
+}
 
-    std::vector<int> numbers;
-    for (int i = 1; i < argc; ++i)
-        numbers.push_back(std::atoi(argv[i]));
 
-    int leftover;
-    std::vector<std::pair<int,int>> pairs = makeAndSortPairs(numbers, leftover);
+
+
+//toDo:5 10 18 7somewords 
+// int main(int argc, char *argv[])
+// {
+//     if (argc < 2) {
+//         std::cerr << "Usage: ./PmergeMe Numbers..." << std::endl;
+//         return 1;
+//     }
+
+//     std::vector<int> numbers;
+//     for (int i = 1; i < argc; ++i)
+//         numbers.push_back(std::atoi(argv[i]));
+
+//     int leftover;
+//     std::vector<std::pair<int,int>> pairs = makeAndSortPairs(numbers, leftover);
     
-    // std::cout << "Vor der Sortierung:" << std::endl;
-    // printPairs(pairs);
+//     // std::cout << "Vor der Sortierung:" << std::endl;
+//     // printPairs(pairs);
     
-    size_t unitSize = 1;
-    firstUnitSort(pairs, unitSize);
-    // std::cout << "unit Size = " << unitSize << std::endl;
+//     size_t unitSize = 1;
+//     firstUnitSort(pairs, unitSize);
+//     // std::cout << "unit Size = " << unitSize << std::endl;
 
-    // std::cout << "Nach der Sortierung:" << std::endl;
-    // printPairs(pairs);
+//     // std::cout << "Nach der Sortierung:" << std::endl;
+//     // printPairs(pairs);
 
-    if (leftover != -1)
-        std::cout << "Übrig: " << leftover << std::endl;
+//     if (leftover != -1)
+//         std::cout << "Übrig: " << leftover << std::endl;
         
     
-    std::vector<int> main = FordJohnson(pairs, unitSize, leftover);
-    std::cout << "Sorted List: " << std::endl;
-    printVector(main);
+//     std::vector<int> main = FordJohnson(pairs, unitSize, leftover);
+//     std::cout << "Sorted List: " << std::endl;
+//     printVector(main);
 
-    //pass in unit level of function before 
-    //richtig labeln {b1,a1,b2,a2,b3,a3,...} {main:  b1,a1, [all coming a's], pend: [all b's after b1]}
-    //if nothing inside pend -> unit level lower (/2)
-    //if something in pend -> insert process (pend into main)
-        //insert process: jacobsthal number defines which b[?] starts (beginning always 3?)
-        //binary insertion to find correct place for pend unit b[?]
-        //continue with b[? -1] until last b[] in pend
-    //unit level lower (/2) until all numbers get compared individually 
+//     //pass in unit level of function before 
+//     //richtig labeln {b1,a1,b2,a2,b3,a3,...} {main:  b1,a1, [all coming a's], pend: [all b's after b1]}
+//     //if nothing inside pend -> unit level lower (/2)
+//     //if something in pend -> insert process (pend into main)
+//         //insert process: jacobsthal number defines which b[?] starts (beginning always 3?)
+//         //binary insertion to find correct place for pend unit b[?]
+//         //continue with b[? -1] until last b[] in pend
+//     //unit level lower (/2) until all numbers get compared individually 
 
-    return 0;
-}
+//     return 0;
+// }
 
 
 
