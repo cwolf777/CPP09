@@ -25,7 +25,7 @@ int main (int argc, char* argv[])
     PmergeMe sorter;
     sorter.loadInput(argv, argc);
     sorter.sortVector();
-    // sorter.sortDeque();
+    sorter.sortDeque();
     // sorter.printResults();
 }
 

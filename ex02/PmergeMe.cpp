@@ -69,7 +69,7 @@ void PmergeMe::sortVector()
     
     _vec = FordJohnson(pairs, unitSize, leftover);
     std::cout << "Sorted List (Vec): " << std::endl;
-    printVector(_vec);
+    printContainer(_vec);
 }
 
 std::vector<std::pair<int, int>> PmergeMe::makeAndSortPairs(const std::vector<int> &numbers, int &leftover)
@@ -127,6 +127,54 @@ void PmergeMe::firstUnitSort(std::vector<std::pair<int,int>> &units, size_t &uni
     unitSize /= 2;
 }
 
+std::vector<int> PmergeMe::FordJohnson(std::vector<std::pair<int,int>> pairs, size_t unitSize, int oddNum)
+{
+        
+    // std::cout << "First Unit Size: " << unitSize << std::endl;
+    std::vector<int> numbers = flattenPairs(pairs);
+    printContainer(numbers);
+    
+    if (oddNum != -1)
+    {
+        numbers.push_back(oddNum);
+    }
+    
+    printContainer(numbers);
+    
+    std::vector<int> main, pend, leftover;
+    while (unitSize >= 1)
+    {
+        std::cout << "Processing unitSize = " << unitSize << std::endl;
+        splitMainPend(numbers, unitSize, main, pend, leftover); 
+        std::cout << "Main: " << std::endl;
+        printContainer(main);
+        std::cout << "Pend: " << std::endl;
+        printContainer(pend);
+        std::cout << "Leftover: " << std::endl;
+        printContainer(leftover);
+        
+        if (!pend.empty())
+        {
+            std::vector<size_t> insertionOrder = generateJacobInsertionOrder(pend.size() / unitSize);
+            // std::cout << "Jacobsthal Insertion Order: ";
+            // for (auto i : insertionOrder) std::cout << i << " ";
+            // std::cout << std::endl;
+            
+            insertPendUnits(main, pend, insertionOrder, unitSize);
+        }
+        // std::cout << "Main after Insertion: " << std::endl;
+        // printContainer(main);
+        // std::cout << "Leftover after Insertion: " << std::endl;
+        // printContainer(leftover);
+        rebuildNumbersFromMainAndLeftover(main, leftover, numbers);
+        // std::cout << "Ende der Sequence (numbers): " << std::endl;
+        // printContainer(numbers);
+        unitSize /= 2;
+    }
+    return main;
+}
+
+
 //Deque Deque Deque Deque Deque Deque Deque Deque Deque Deque Deque Deque Deque Deque Deque Deque Deque Deque
 
 void PmergeMe::sortDeque()
@@ -135,11 +183,11 @@ void PmergeMe::sortDeque()
     std::deque<std::pair<int,int>> pairs = makeAndSortPairsDeq(_deq, leftover);
 
     size_t unitSize = 1;
-    firstUnitSort(pairs, unitSize);
+    firstUnitSortDeq(pairs, unitSize);
     
-    _vec = FordJohnson(pairs, unitSize, leftover);
-    std::cout << "Sorted List (Vec): " << std::endl;
-    printVector(_vec);
+    _deq = FordJohnsonDeq(pairs, unitSize, leftover);
+    std::cout << "Sorted List (Deq): " << std::endl;
+    printContainer(_vec);
 }
 
 std::deque<std::pair<int, int>> PmergeMe::makeAndSortPairsDeq(const std::deque<int> &numbers, int &leftover)
@@ -195,4 +243,50 @@ void PmergeMe::firstUnitSortDeq(std::deque<std::pair<int,int>> &units, size_t &u
         unitSize *= 2; // nächste Stufe: Einheiten verdoppeln
     }
     unitSize /= 2;
+}
+
+std::deque<int> PmergeMe::FordJohnsonDeq(std::deque<std::pair<int,int>> pairs, size_t unitSize, int oddNum)
+{
+    // std::cout << "First Unit Size: " << unitSize << std::endl;
+    std::deque<int> numbers = flattenPairsDeq(pairs);
+    printContainer(numbers);
+    
+    if (oddNum != -1)
+    {
+        numbers.push_back(oddNum);
+    }
+    
+    printContainer(numbers);
+    
+    std::deque<int> main, pend, leftover;
+    while (unitSize >= 1)
+    {
+        std::cout << "Processing unitSize = " << unitSize << std::endl;
+        splitMainPend(numbers, unitSize, main, pend, leftover); 
+        std::cout << "Main: " << std::endl;
+        printContainer(main);
+        std::cout << "Pend: " << std::endl;
+        printContainer(pend);
+        std::cout << "Leftover: " << std::endl;
+        printContainer(leftover);
+        
+        if (!pend.empty())
+        {
+            std::vector<size_t> insertionOrder = generateJacobInsertionOrder(pend.size() / unitSize);
+            // std::cout << "Jacobsthal Insertion Order: ";
+            // for (auto i : insertionOrder) std::cout << i << " ";
+            // std::cout << std::endl;
+            
+            insertPendUnits(main, pend, insertionOrder, unitSize);
+        }
+        // std::cout << "Main after Insertion: " << std::endl;
+        // printContainer(main);
+        // std::cout << "Leftover after Insertion: " << std::endl;
+        // printContainer(leftover);
+        rebuildNumbersFromMainAndLeftover(main, leftover, numbers);
+        // std::cout << "Ende der Sequence (numbers): " << std::endl;
+        // printContainer(numbers);
+        unitSize /= 2;
+    }
+    return main;
 }

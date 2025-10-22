@@ -24,10 +24,8 @@ void printPairs(const std::vector<std::pair<int,int>> &pairs);
 // void firstUnitSort(std::vector<std::pair<int,int>> &units, size_t &unitSize);
 
 
-std::vector<int> FordJohnson(std::vector<std::pair<int,int>> pairs, size_t unitSize, int oddNum);
-std::vector<int> flattenPairs(const std::vector<std::pair<int,int>> &pairs);
+// std::vector<int> FordJohnson(std::vector<std::pair<int,int>> pairs, size_t unitSize, int oddNum);
 std::vector<size_t> getJacobInsertionOrder(size_t pendSize);
-void printVector(const std::vector<int> &v);
 
 class PmergeMe
 {
@@ -41,8 +39,8 @@ class PmergeMe
         void firstUnitSort(std::vector<std::pair<int,int>> &units, size_t &unitSize);
         void firstUnitSortDeq(std::deque<std::pair<int,int>> &units, size_t &unitSize);
         
-        // std::vector<int> FordJohnson(std::vector<std::pair<int,int>> pairs, size_t unitSize, int oddNum);
-        //std::deque<int> FordJohnsonDeq(std::deque<std::pair<int,int>> pairs, size_t unitSize, int oddNum);
+        std::vector<int> FordJohnson(std::vector<std::pair<int,int>> pairs, size_t unitSize, int oddNum);
+        std::deque<int> FordJohnsonDeq(std::deque<std::pair<int,int>> pairs, size_t unitSize, int oddNum);
         
     public:
         PmergeMe();                                  
