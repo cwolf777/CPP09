@@ -6,7 +6,7 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 09:54:57 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/21 18:01:30 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/22 16:57:33 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,22 @@ int main (int argc, char* argv[])
         std::cerr << "Usage: ./PmergeMe Numbers..." << std::endl;
         return 1;
     }
-    //try & catch
+
     PmergeMe sorter;
     sorter.loadInput(argv, argc);
+    
+    auto startVec = std::chrono::high_resolution_clock::now();
     sorter.sortVector();
+    auto endVec = std::chrono::high_resolution_clock::now();
+    double timeVec = std::chrono::duration<double, std::micro>(endVec - startVec).count();
+    
+    
+    auto startDeq = std::chrono::high_resolution_clock::now();
     sorter.sortDeque();
-    // sorter.printResults();
+    auto endDeq = std::chrono::high_resolution_clock::now();
+    double timeDeq = std::chrono::duration<double, std::micro>(endDeq - startDeq).count();
+    
+    sorter.printResults(timeVec, timeDeq);
 }
 
 

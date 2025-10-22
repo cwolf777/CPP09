@@ -6,7 +6,7 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 17:41:25 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/21 17:41:41 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/22 16:47:18 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,14 @@ void printContainer(const Container &v)
 {
     for (size_t i = 0; i < v.size(); ++i)
         std::cout << v[i] << " ";
+    std::cout << std::endl;
+}
+
+template<typename Container>
+void printPairs(const Container &pairs)
+{
+    for (size_t i = 0; i < pairs.size(); ++i)
+        std::cout << "(" << pairs[i].first << "," << pairs[i].second << ") ";
     std::cout << std::endl;
 }
 
@@ -148,7 +156,6 @@ void rebuildNumbersFromMainAndLeftover(const Container &main, const Container &l
     numbers.insert(numbers.end(), leftover.begin(), leftover.end());
 }
 
-void printPairs(const std::vector<std::pair<int,int>> &pairs);
 // void splitMainPend(const std::vector<int> &numbers, size_t unitSize, std::vector<int> &main, std::vector<int> &pend, std::vector<int> &leftover);
 std::vector<size_t> generateJacobInsertionOrder(size_t pendCount);
 // void insertPendUnits(std::vector<int> &main, std::vector<int> &pend, const std::vector<size_t> &insertionOrder, size_t unitSize);
@@ -157,5 +164,5 @@ std::vector<int> flattenPairs(const std::vector<std::pair<int,int>> &pairs);
 
 
 //deque
-void printPairsDeq(const std::deque<std::pair<int,int>> &pairs);
+// void printPairsDeq(const std::deque<std::pair<int,int>> &pairs);
 std::deque<int> flattenPairsDeq(const std::deque<std::pair<int,int>> &pairs);
