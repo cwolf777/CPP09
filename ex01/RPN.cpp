@@ -6,7 +6,7 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 10:16:45 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/08 15:50:01 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/08 15:54:11 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ float RPN::execute(const std::string& expression)
             int num = std::stoi(token);
             _st.push(num);
         }
-        else if (isOperator(token)) //
+        else if (isOperator(token))
         {
             applyOperator(token);
         }
