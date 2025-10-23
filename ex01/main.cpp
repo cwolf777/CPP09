@@ -6,7 +6,7 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 09:54:57 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/08 15:30:22 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/23 20:12:41 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,7 @@
 
 int main (int argc, char* argv[])
 {
-    //numbers passed in will always be less than 10 (int)
-    //output result on standart output
-    //if error while execution -> error message (standard error)
-    // operations : + - * /
-    
-    //parse 
     // 7 7 * 7 -
-    //load stack container:
-    //left to right:
-    //if number push it onto stack 
-    //if operator pop first two numbers
-    //if not 2 numbers before operator -> Error 
-    //if not operator at end -> error 
     
     if (argc != 2)
     {

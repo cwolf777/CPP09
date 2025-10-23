@@ -6,7 +6,7 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 10:21:05 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/06 18:57:36 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/23 20:11:42 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,17 +132,7 @@ static void printOutput(const std::map<std::string, double>& exchangeRates,
 
 }
 void validate(const std::string& filename)
-{
-    //try
-    ////check header date | value
-    ////line per line: (2012-03-15 | 54)
-    ////cut until "|" if not throw error
-    ////check if date is correct (regex) throw error 
-    ////check after |
-    ////check value, float unsigned int 0 - 1000 throw error 
-    //catch
-    //if line correct -> void printOutput(xyz);
-    
+{   
     BitcoinExchange btc;
     btc.load_map();
 
@@ -168,7 +158,7 @@ void validate(const std::string& filename)
             std::string dateStr;
             std::string valueStr;   //(2012-03-15 | 54)
             
-            if (std::getline(ss, dateStr, '|') && std::getline(ss, valueStr)) //line wird in dateStr und valueStr aufgeteilt, beides muss erfolgreich sein
+            if (std::getline(ss, dateStr, '|') && std::getline(ss, valueStr))
             {
                 try
                 {
@@ -183,7 +173,6 @@ void validate(const std::string& filename)
             }
             else
             {
-                // throw std::logic_error("Error: Invalid line format!");
                 std::cerr << "Error: Invalid line format!" << std::endl;
             }
         }

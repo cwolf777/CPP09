@@ -6,13 +6,11 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 09:54:57 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/22 16:57:33 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/23 20:13:39 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
-
-
 
 int main (int argc, char* argv[])
 {
@@ -39,71 +37,6 @@ int main (int argc, char* argv[])
     sorter.printResults(timeVec, timeDeq);
 }
 
-
-
-
-//toDo:5 10 18 7somewords 
-// int main(int argc, char *argv[])
-// {
-//     if (argc < 2) {
-//         std::cerr << "Usage: ./PmergeMe Numbers..." << std::endl;
-//         return 1;
-//     }
-
-//     std::vector<int> numbers;
-//     for (int i = 1; i < argc; ++i)
-//         numbers.push_back(std::atoi(argv[i]));
-
-//     int leftover;
-//     std::vector<std::pair<int,int>> pairs = makeAndSortPairs(numbers, leftover);
-    
-//     // std::cout << "Vor der Sortierung:" << std::endl;
-//     // printPairs(pairs);
-    
-//     size_t unitSize = 1;
-//     firstUnitSort(pairs, unitSize);
-//     // std::cout << "unit Size = " << unitSize << std::endl;
-
-//     // std::cout << "Nach der Sortierung:" << std::endl;
-//     // printPairs(pairs);
-
-//     if (leftover != -1)
-//         std::cout << "Übrig: " << leftover << std::endl;
-        
-    
-//     std::vector<int> main = FordJohnson(pairs, unitSize, leftover);
-//     std::cout << "Sorted List: " << std::endl;
-//     printVector(main);
-
-//     //pass in unit level of function before 
-//     //richtig labeln {b1,a1,b2,a2,b3,a3,...} {main:  b1,a1, [all coming a's], pend: [all b's after b1]}
-//     //if nothing inside pend -> unit level lower (/2)
-//     //if something in pend -> insert process (pend into main)
-//         //insert process: jacobsthal number defines which b[?] starts (beginning always 3?)
-//         //binary insertion to find correct place for pend unit b[?]
-//         //continue with b[? -1] until last b[] in pend
-//     //unit level lower (/2) until all numbers get compared individually 
-
-//     return 0;
-// }
-
-
-
-
-
-    //Ford-Johnson-Algo
-    //2 Parts: Merging & Inserting
-    //Numbers: 25 24 23 22 21 20 19 18
-    //Merging:
-    //1. Split: 
-    //Order 1: [25][24] [23][22] [21][20] [19][18] compare everytime 2 pairs > [24][25]   [22][23]  [20][21]  [18][19]
-    //Order (*2) 2: ([24][25]) ([22][23]) ([20][21]) ([18][19]) > ([22][23])([24][25])  ([18][19])([20][21]) 
-    //Order 4: ([22][23][24][25])  ([18][19][20][21]) > ([18][19][20][21]) ([22][23][24][25])
-    //Order 8: only one pair left: ([18][19][20][21][22][23][24][25])
-
-
-
-    
     //new example: Order 8:
     //[18, 19, 20, 21, 22, 23, 24, 25], [10, 11, 12, 13, 14, 15, 16, 17], [2, 3, 4, 5, 6, 7, 8, 9], [0, 1]
     // > 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1

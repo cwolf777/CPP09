@@ -6,7 +6,7 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 10:18:03 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/08 15:41:54 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/23 20:13:17 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 class RPN
 {
     private:
-        std::stack<int> _st;    //int?
+        std::stack<int> _st;
     public:
         RPN();
         RPN(const RPN& other);

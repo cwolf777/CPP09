@@ -6,7 +6,7 @@
 /*   By: cwolf <cwolf@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 09:54:57 by cwolf             #+#    #+#             */
-/*   Updated: 2025/10/22 16:59:18 by cwolf            ###   ########.fr       */
+/*   Updated: 2025/10/23 20:14:17 by cwolf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ std::vector<int> PmergeMe::FordJohnson(std::vector<std::pair<int,int>> pairs, si
 }
 
 
-//Deque Deque Deque Deque Deque Deque Deque Deque Deque Deque Deque Deque Deque Deque Deque Deque Deque Deque
+//Deque Part
 
 void PmergeMe::sortDeque()
 {
@@ -161,7 +161,7 @@ void PmergeMe::sortDeque()
 
 std::deque<std::pair<int, int>> PmergeMe::makeAndSortPairsDeq(const std::deque<int> &numbers, int &leftover)
 {
-    leftover = -1; //default
+    leftover = -1;
     std::deque<std::pair<int, int>> pairs;
     size_t n = numbers.size();
 
@@ -211,17 +211,14 @@ void PmergeMe::firstUnitSortDeq(std::deque<std::pair<int,int>> &units, size_t &u
 
 std::deque<int> PmergeMe::FordJohnsonDeq(std::deque<std::pair<int,int>> pairs, size_t unitSize, int oddNum)
 {
-    // std::cout << "First Unit Size: " << unitSize << std::endl;
     std::deque<int> numbers = flattenPairsDeq(pairs);
     if (oddNum != -1)
     {
         numbers.push_back(oddNum);
     }
-    // printContainer(numbers);
     std::deque<int> main, pend, leftover;
     while (unitSize >= 1)
     {
-        // std::cout << "Processing unitSize = " << unitSize << std::endl;
         splitMainPend(numbers, unitSize, main, pend, leftover);
         if (!pend.empty())
         {
